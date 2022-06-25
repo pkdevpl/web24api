@@ -1,0 +1,24 @@
+app.employee.list:
+  path: /companies/{companyId}/employees
+  methods: GET
+  controller: App\Controller\CompanyController::index
+
+app.employee.create:
+  path: /companies/{companyId}/employees
+  methods: POST
+  controller: App\Controller\CompanyController::create
+
+app.employee.read:
+  path: /companies/{companyId}/employees/{id}
+  methods: GET
+  controller: App\Controller\CompanyController::read
+
+app.employee.update:
+  path: /companies/{companyId}/employees/{id}
+  methods: PUT
+  controller: App\Controller\CompanyController::update
+
+app.employee.delete:
+  path: /companies/{companyId}/employees/{id}
+  methods: DELETE
+  controller: App\Controller\CompanyController::delete

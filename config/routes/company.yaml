@@ -1,0 +1,24 @@
+app.company.list:
+  path: /companies
+  methods: GET
+  controller: App\Controller\CompanyController::index
+
+app.company.create:
+  path: /companies
+  methods: POST
+  controller: App\Controller\CompanyController::create
+
+app.company.read:
+  path: /companies/{id}
+  methods: GET
+  controller: App\Controller\CompanyController::read
+
+app.company.update:
+  path: /companies/{id}
+  methods: PUT
+  controller: App\Controller\CompanyController::update
+
+app.company.delete:
+  path: /companies/{id}
+  methods: DELETE
+  controller: App\Controller\CompanyController::delete

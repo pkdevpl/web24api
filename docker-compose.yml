@@ -1,0 +1,24 @@
+version: '3'
+
+networks:
+  default:
+
+services:
+  database:
+    image: mysql:5.7
+    networks:
+      - default
+    ports:
+      - "3307:3306"
+    restart: always
+    environment:
+      MYSQL_USER: web24
+      MYSQL_DATABASE: web24
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_PASSWORD: secret
+    volumes:
+      - db-volume:/var/lib/mysql
+
+volumes:
+  db-volume:
+

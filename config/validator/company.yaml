@@ -1,0 +1,12 @@
+App\Command\CompanyCreateCommand:
+  properties:
+    name:
+      - NotBlank: ~
+    nip:
+      - NotBlank: ~
+    address:
+      - NotBlank: ~
+    city:
+      - NotBlank: ~
+    postal:
+      - NotBlank: ~

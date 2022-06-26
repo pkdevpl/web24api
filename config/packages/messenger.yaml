@@ -1,0 +1,24 @@
+framework:
+    messenger:
+        reset_on_message: true
+        default_bus: command.bus
+        buses:
+            command.bus:
+                middleware:
+                    - validation
+            query.bus:
+                middleware:
+                    - validation
+            message.bus:
+                middleware:
+                    - validation
+
+        transports:
+            # https://symfony.com/doc/current/messenger.html#transport-configuration
+            # async: '%env(MESSENGER_TRANSPORT_DSN)%'
+            # failed: 'doctrine://default?queue_name=failed'
+          sync: 'sync://'
+
+        routing:
+            'App\Command\CommandInterface': sync
+            'App\Query\QueryInterface': sync

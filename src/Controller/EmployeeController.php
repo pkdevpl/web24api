@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Command\EmployeeCreateCommand;
 use App\Command\EmployeeDeleteCommand;
 use App\Command\EmployeeUpdateCommand;
+use App\Query\EmployeeFindByIdQuery;
+use App\Query\EmployeeListQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,9 +25,18 @@ class EmployeeController extends AbstractController
         $this->queryBus = $queryBus;
     }
 
-    public function index(int $companyId): Response
+    public function index(int $companyId, Request $request): Response
     {
-        return new JsonResponse(['status' => 'OK']);
+        $query = new EmployeeListQuery($companyId);
+
+        $query->setPage($request->query->get('page'));
+        $query->setPerPage($request->query->get('perPage'));
+        $query->setQueryField($request->query->get('queryField'));
+        $query->setQuery($request->query->get('query'));
+
+        $listDto = $this->queryBus->dispatch($query)->last(HandledStamp::class)->getResult();
+
+        return new JsonResponse($listDto);
     }
 
     public function create(int $companyId, Request $request): Response
@@ -39,12 +50,19 @@ class EmployeeController extends AbstractController
 
         $employeeId = $this->commandBus->dispatch($command)->last(HandledStamp::class)->getResult();
 
-        return new JsonResponse(['employee' => $employeeId], Response::HTTP_CREATED);
+        $query = new EmployeeFindByIdQuery($companyId, $employeeId);
+        $employeeDto = $this->queryBus->dispatch($query)->last(HandledStamp::class)->getResult();
+
+        return new JsonResponse(['employee' => $employeeDto], Response::HTTP_CREATED);
     }
 
     public function read(int $companyId, int $id): Response
     {
-        return new JsonResponse(['status' => 'OK']);
+        $query = new EmployeeFindByIdQuery($companyId, $id);
+
+        $employeeDto = $this->queryBus->dispatch($query)->last(HandledStamp::class)->getResult();
+
+        return new JsonResponse(['employee' => $employeeDto]);
     }
 
     public function update(int $companyId, int $id, Request $request): Response
@@ -58,7 +76,10 @@ class EmployeeController extends AbstractController
 
         $this->commandBus->dispatch($command);
 
-        return new JsonResponse(['employee' => $id]);
+        $query = new EmployeeFindByIdQuery($companyId, $id);
+        $employeeDto = $this->queryBus->dispatch($query)->last(HandledStamp::class)->getResult();
+
+        return new JsonResponse(['employee' => $employeeDto]);
     }
 
     public function delete(int $companyId, int $id): Response

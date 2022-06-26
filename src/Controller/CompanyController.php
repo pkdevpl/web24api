@@ -29,8 +29,8 @@ class CompanyController extends AbstractController
     {
         $query = new CompanyListQuery();
 
-        $query->setPage($request->query->get('page', 1));
-        $query->setPerPage($request->query->get('perPage', 10));
+        $query->setPage($request->query->get('page'));
+        $query->setPerPage($request->query->get('perPage'));
         $query->setQueryField($request->query->get('queryField'));
         $query->setQuery($request->query->get('query'));
 
@@ -56,7 +56,6 @@ class CompanyController extends AbstractController
         return new JsonResponse(['company' => $companyDto], Response::HTTP_CREATED);
     }
 
-
     public function read(int $id): Response
     {
         $query = new CompanyFindByIdQuery($id);
@@ -65,7 +64,6 @@ class CompanyController extends AbstractController
 
         return new JsonResponse(['company' => $companyDto]);
     }
-
 
     public function update(int $id, Request $request): Response
     {

@@ -2,16 +2,16 @@
 
 namespace App\Dto;
 
-class CompanyListDto
+class EmployeeListDto
 {
-    public array $companies;
+    public array $employees;
     public ?int $page;
     public ?int $perPage;
     public ?int $totalPages;
 
     public function __construct()
     {
-        $this->companies = [];
+        $this->employees = [];
         $this->page = null;
         $this->perPage = null;
         $this->totalPages = null;

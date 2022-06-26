@@ -15,6 +15,11 @@ class JsonErrorResponse extends JsonResponse
     {
         $type = get_class($exception);
 
+        if ($type === HandlerFailedException::class) {
+            $exception = $exception->getNestedExceptions()[0];
+            $type = get_class($exception);
+        }
+
         $data = [];
 
         switch ($type) {
@@ -27,15 +32,17 @@ class JsonErrorResponse extends JsonResponse
                 break;
 
             case NotFoundException::class:
-                $data['error'] = $exception->getMessage();
+                $data['error'] = 'Resource not found';
+                if ($exception->getMessage()) {
+                    $data['error'] = $exception->getMessage();
+                }
                 $status = Response::HTTP_NOT_FOUND;
                 break;
 
             default:
+                $data['error'] = 'Application Error';
                 if (isset($_SERVER['APP_ENV']) && $_SERVER['APP_ENV'] === 'dev') {
                     $data['error'] = $exception->getMessage();
-                } else {
-                    $data['error'] = 'Application Error';
                 }
                 $status = Response::HTTP_BAD_REQUEST;
         }

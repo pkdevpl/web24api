@@ -36,3 +36,15 @@ App\Command\CompanyUpdateCommand:
     postal:
       - NotBlank: ~
       - Type: string
+
+  App\Command\CompanyDeleteCommand:
+    properties:
+      id:
+        - NotBlank: ~
+        - Type: integer
+
+  App\Query\CompanyFindByIdQuery:
+    properties:
+      id:
+        - NotBlank: ~
+        - Type: integer

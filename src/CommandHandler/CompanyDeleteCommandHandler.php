@@ -26,6 +26,10 @@ class CompanyDeleteCommandHandler implements ComandHandlerInterface
             throw new NotFoundException("Company with provided id was not found");
         }
 
+        foreach ($company->getEmployees() as $employee) {
+            $this->entityManager->remove($employee);
+        }
+
         $this->entityManager->remove($company);
         $this->entityManager->flush();
     }

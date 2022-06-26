@@ -124,13 +124,4 @@ class Company
             $employee->setCompany($this);
         }
     }
-
-    public function removeEmployee(Employee $employee): void
-    {
-        if ($this->employees->removeElement($employee)) {
-            if ($employee->getCompany() === $this) {
-                $employee->setCompany(null);
-            }
-        }
-    }
 }

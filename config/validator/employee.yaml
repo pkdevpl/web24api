@@ -1,0 +1,63 @@
+App\Entity\Employee:
+  constraints:
+    - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+        fields: [email, company]
+        message: "Employee with provided email already exists for this company"
+  properties:
+    email:
+      - Email: ~
+
+App\Command\EmployeeCreateCommand:
+  properties:
+    companyId:
+      - NotBlank: ~
+      - Type: int
+    name:
+      - NotBlank: ~
+      - Type: string
+    lastName:
+      - NotBlank: ~
+      - Type: string
+    email:
+      - NotBlank: ~
+      - Email: ~
+    phone:
+      - Type: string
+
+App\Command\EmployeeUpdateCommand:
+  properties:
+    companyId:
+      - NotBlank: ~
+      - Type: int
+    id:
+      - NotBlank: ~
+      - Type: int
+    name:
+      - NotBlank: ~
+      - Type: string
+    lastName:
+      - NotBlank: ~
+      - Type: string
+    email:
+      - NotBlank: ~
+      - Email: ~
+    phone:
+      - Type: string
+
+  App\Command\EmployeeDeleteCommand:
+    properties:
+      id:
+        - NotBlank: ~
+        - Type: integer
+
+#  App\Query\EmployeeFindByIdQuery:
+#    properties:
+#      id:
+#        - NotBlank: ~
+#        - Type: integer
+#
+#  App\Query\EmployeeListQuery:
+#    properties:
+#      companyId:
+#        - NotBlank: ~
+#        - Type: integer

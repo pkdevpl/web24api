@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Command\CompanyCreateCommand;
+use App\Query\CompanyFindByIdQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +13,6 @@ use Symfony\Component\Messenger\Stamp\HandledStamp;
 
 class CompanyController extends AbstractController
 {
-
     private MessageBusInterface $commandBus;
     private MessageBusInterface $queryBus;
 
@@ -39,13 +39,19 @@ class CompanyController extends AbstractController
 
         $companyId = $this->commandBus->dispatch($command)->last(HandledStamp::class)->getResult();
 
-        return new JsonResponse(['companyId' => $companyId], Response::HTTP_CREATED);
+        $companyDto = $this->queryBus->dispatch(new CompanyFindByIdQuery($companyId))->last(HandledStamp::class)->getResult();
+
+        return new JsonResponse(['company' => $companyDto], Response::HTTP_CREATED);
     }
 
 
     public function read(int $id): Response
     {
-        return new JsonResponse(['status' => 'OK']);
+        $query = new CompanyFindByIdQuery($id);
+
+        $companyDto = $this->queryBus->dispatch($query)->last(HandledStamp::class)->getResult();
+
+        return new JsonResponse(['company' => $companyDto]);
     }
 
 

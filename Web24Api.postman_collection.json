@@ -1,0 +1,370 @@
+{
+	"info": {
+		"_postman_id": "e8cdbec9-78e9-44e2-8c24-059bc5a6c82a",
+		"name": "Web24Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12966157"
+	},
+	"item": [
+		{
+			"name": "Company List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/companies?perPage=10&page=1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"companies"
+					],
+					"query": [
+						{
+							"key": "perPage",
+							"value": "10"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "queryField",
+							"value": "name",
+							"disabled": true
+						},
+						{
+							"key": "query",
+							"value": "up",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Company Create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const responseJSON = JSON.parse(responseBody);\r",
+							"pm.environment.set('COMPANY_ID', responseJSON.company.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Acme Corp.\",\r\n    \"nip\": \"789654123\",\r\n    \"address\": \"123. Sesame Street\",\r\n    \"city\": \"New York\",\r\n    \"postal\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/companies",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"companies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Company Read",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/companies/{{COMPANY_ID}}",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"companies",
+						"{{COMPANY_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Company Update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const responseJSON = JSON.parse(responseBody);\r",
+							"pm.environment.set('COMPANY_ID', responseJSON.company.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Updated Acme Corp.\",\r\n    \"nip\": \"789456123\",\r\n    \"address\": \"123 Sesame Street\",\r\n    \"city\": \"New York\",\r\n    \"postal\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/companies/{{COMPANY_ID}}",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"companies",
+						"{{COMPANY_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Company Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/companies/{{COMPANY_ID}}",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"companies",
+						"{{COMPANY_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Employee List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/companies/{{COMPANY_ID}}/employees?perPage=10&page=1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"companies",
+						"{{COMPANY_ID}}",
+						"employees"
+					],
+					"query": [
+						{
+							"key": "perPage",
+							"value": "10"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "queryField",
+							"value": "lastname",
+							"disabled": true
+						},
+						{
+							"key": "query",
+							"value": "sc",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Employee Create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const responseJSON = JSON.parse(responseBody);\r",
+							"pm.environment.set('EMPLOYEE_ID', responseJSON.employee.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Edward\",\r\n    \"lastName\": \"Scissorhands\",\r\n    \"email\": \"eds@example.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/companies/{{COMPANY_ID}}/employees",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"companies",
+						"{{COMPANY_ID}}",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Employee Read",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/companies/{{COMPANY_ID}}/employees/{{EMPLOYEE_ID}}",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"companies",
+						"{{COMPANY_ID}}",
+						"employees",
+						"{{EMPLOYEE_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Employee Update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const responseJSON = JSON.parse(responseBody);\r",
+							"pm.environment.set('EMPLOYEE_ID', responseJSON.employee.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Edward\",\r\n    \"lastName\": \"Scissorhands\",\r\n    \"email\": \"eds@example.com\",\r\n    \"phone\": \"789456123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/companies/{{COMPANY_ID}}/employees/{{EMPLOYEE_ID}}",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"companies",
+						"{{COMPANY_ID}}",
+						"employees",
+						"{{EMPLOYEE_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Employee Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/companies/{{COMPANY_ID}}/employees/{{EMPLOYEE_ID}}",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"companies",
+						"{{COMPANY_ID}}",
+						"employees",
+						"{{EMPLOYEE_ID}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

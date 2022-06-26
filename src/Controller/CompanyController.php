@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Command\CompanyCreateCommand;
+use App\Command\CompanyDeleteCommand;
 use App\Command\CompanyUpdateCommand;
 use App\Query\CompanyFindByIdQuery;
+use App\Query\CompanyListQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,9 +25,18 @@ class CompanyController extends AbstractController
         $this->queryBus = $queryBus;
     }
 
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        return new JsonResponse(['status' => 'OK']);
+        $query = new CompanyListQuery();
+
+        $query->setPage($request->query->get('page', 1));
+        $query->setPerPage($request->query->get('perPage', 10));
+        $query->setQueryField($request->query->get('queryField'));
+        $query->setQuery($request->query->get('query'));
+
+        $collection = $this->queryBus->dispatch($query)->last(HandledStamp::class)->getResult();
+
+        return new JsonResponse($collection);
     }
 
     public function create(Request $request): Response
@@ -77,6 +88,10 @@ class CompanyController extends AbstractController
 
     public function delete(int $id): Response
     {
-        return new JsonResponse(['status' => 'OK'], Response::HTTP_NO_CONTENT);
+        $command = new CompanyDeleteCommand($id);
+
+        $this->commandBus->dispatch($command);
+
+        return new JsonResponse('', Response::HTTP_NO_CONTENT);
     }
 }

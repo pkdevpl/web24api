@@ -21,3 +21,7 @@ services:
         resource: '../src/QueryHandler/*'
         tags: [ {name: messenger.message_handler, bus: query.bus} ]
         autoconfigure: false
+
+    App\EventListener\ExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }

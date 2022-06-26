@@ -3,8 +3,8 @@
 namespace App\Service;
 
 use App\Entity\Company;
+use App\Exception\NotFoundException;
 use App\Repository\CompanyRepository;
-use Doctrine\DBAL\Exception;
 
 class CompanyDtoFinder
 {
@@ -21,7 +21,7 @@ class CompanyDtoFinder
     {
         $company = $this->companyRepository->find($id);
         if (!$company instanceof Company) {
-            throw new Exception('Company with provided id was not found');
+            throw new NotFoundException('Company with provided id was not found');
         }
 
         return $this->builder->buildDtoFromEntity($company);

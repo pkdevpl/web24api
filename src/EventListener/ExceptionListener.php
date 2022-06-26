@@ -2,7 +2,7 @@
 
 namespace App\EventListener;
 
-use App\Lib\Response\JsonErrorResponse;
+use App\Response\JsonErrorResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
 class ExceptionListener

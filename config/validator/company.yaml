@@ -2,11 +2,37 @@ App\Command\CompanyCreateCommand:
   properties:
     name:
       - NotBlank: ~
+      - Type: string
     nip:
       - NotBlank: ~
+      - Type: string
     address:
       - NotBlank: ~
+      - Type: string
     city:
       - NotBlank: ~
+      - Type: string
     postal:
       - NotBlank: ~
+      - Type: string
+
+App\Command\CompanyUpdateCommand:
+  properties:
+    id:
+      - NotBlank: ~
+      - Type: integer
+    name:
+      - NotBlank: ~
+      - Type: string
+    nip:
+      - NotBlank: ~
+      - Type: string
+    address:
+      - NotBlank: ~
+      - Type: string
+    city:
+      - NotBlank: ~
+      - Type: string
+    postal:
+      - NotBlank: ~
+      - Type: string

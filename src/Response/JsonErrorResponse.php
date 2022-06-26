@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Lib\Response;
+namespace App\Response;
 
+use App\Exception\NotFoundException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Messenger\Exception\ValidationFailedException;
 use Throwable;
 
@@ -24,8 +26,17 @@ class JsonErrorResponse extends JsonResponse
                 $status = Response::HTTP_BAD_REQUEST;
                 break;
 
+            case NotFoundException::class:
+                $data['error'] = $exception->getMessage();
+                $status = Response::HTTP_NOT_FOUND;
+                break;
+
             default:
-                $data['error'] = 'Application Error';
+                if (isset($_SERVER['APP_ENV']) && $_SERVER['APP_ENV'] === 'dev') {
+                    $data['error'] = $exception->getMessage();
+                } else {
+                    $data['error'] = 'Application Error';
+                }
                 $status = Response::HTTP_BAD_REQUEST;
         }
 

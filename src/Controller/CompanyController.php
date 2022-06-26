@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Command\CompanyCreateCommand;
+use App\Command\CompanyUpdateCommand;
 use App\Query\CompanyFindByIdQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -55,9 +56,22 @@ class CompanyController extends AbstractController
     }
 
 
-    public function update(int $id): Response
+    public function update(int $id, Request $request): Response
     {
-        return new JsonResponse(['status' => 'OK']);
+        $command = new CompanyUpdateCommand();
+
+        $command->setId($id);
+        $command->setName($request->request->get('name'));
+        $command->setNip($request->request->get('nip'));
+        $command->setAddress($request->request->get('address'));
+        $command->setCity($request->request->get('city'));
+        $command->setPostal($request->request->get('postal'));
+
+        $this->commandBus->dispatch($command);
+
+        $companyDto = $this->queryBus->dispatch(new CompanyFindByIdQuery($id))->last(HandledStamp::class)->getResult();
+
+        return new JsonResponse(['company' => $companyDto]);
     }
 
 

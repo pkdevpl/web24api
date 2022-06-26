@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
+use App\Dto\CompanyDto;
 use App\Entity\Company;
-use App\Lib\Dto\CompanyDto;
 
 class CompanyBuilder
 {
